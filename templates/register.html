@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}Register{% endblock %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+{% block body %}
+{% if value %}
+  <div class="w3-container w3-green">
+    <p> Username is taken </p>
+  </div>
+
+{% endif %}
+<div id="login-box">
+	<div class="left">
+		<form action="/register" method="post">
+    		<h1>Sign up</h1>
+		    <input type="text" id ="firstname" name="firstname" placeholder="Firstname" />
+		    <input type="text" id ="lastname"name="lastname" placeholder="Lastname" />
+		    <input type="text" id = "username"name="username" placeholder="Username" />
+		    <input type="text" id="email" name="email" placeholder="E-mail" />
+		    <input type="text" id="hometown"name="hometown" placeholder="Hometown" />
+		    <input type="text" id="website"name="website" placeholder="Personal Website Link" />
+		    <input type="password" id="password" name="password" placeholder="Password" />
+  			<input type="radio" id="radio1" name="radios" value="male" >
+    		<label for="radio1">Male</label>
+ 			<input type="radio" id="radio2" name="radios" value="female">
+ 			<label for="radio2">Female</label>
+		    <input type="submit" name="signup_submit" value="Sign me up" onclick="validateForm()" />
+		 </div></form>
+
+		  <div class="right">
+		  </div>
+{% endblock %}

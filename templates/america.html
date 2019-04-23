@@ -1,0 +1,17 @@
+{% extends "layout.html"%}
+	{% block title %}United states{% endblock %}
+	{%block body%}
+<body>
+	
+<p>This page contain students who got scholarships in United states</p>
+ <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="../static/ak11.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{data.name}} </h5>
+    <p class="card-text">{{data.desc}}</p>
+    <a href="/akram" class="btn btn-primary">More info</a>
+  </div>
+</div>
+
+	{%endblock%}
+</body>
