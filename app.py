@@ -6,12 +6,12 @@ import dataset
 app =  Flask(__name__)
 
 #this line to connect the app to database
-db = dataset.connect('sqlite:///scholars5.db')
+db = dataset.connect('sqlite:///scholars6.db')
 
 #this line to make the password unique
 app.secret_key= "s90183192083810298apsoduaspdiohashk"
 def start():
-	db = dataset.connect('sqlite:///scholars5.db')
+	db = dataset.connect('sqlite:///scholars6.db')
 	studentsTable = db["students"]
 
 	students_entry = {"name" : "akram" ,"desc": "Akram is studying computer science in one of the top schools in the world",
@@ -23,8 +23,7 @@ def start():
 	studentsTable.insert(students_entry)
 	studentsTable.insert(students_entry2)
 	studentsTable.insert(students_entry3)
-start()
-
+# start()
 #these following lines to give the homepage a route
 @app.route('/')
 def home():
@@ -84,7 +83,7 @@ def login():
 			username = form["username"]
 
 			password = form["password"]
-			db = dataset.connect('sqlite:///scholars5.db')
+			db = dataset.connect('sqlite:///scholars6.db')
 			usersTable = db["users"]
 
 			if len(list(usersTable.find(username=username , password=password)))==0:
@@ -95,18 +94,31 @@ def login():
 				return redirect ("/")
 @app.route('/germany')
 def germany():
-	db = dataset.connect('sqlite:///scholars5.db')
+	db = dataset.connect('sqlite:///scholars6.db')
 
 	studentsTable = db["students"]
 	data = studentsTable.find_one(name="Khaled Alhendawi")
 	return render_template('germany.html', data=data)
 
-@app.route('/germany/khaled')
+@app.route('/khaled',methods=["POST","GET"])
 def khaled():
-	return render_template('khaled.html')
+
+	if request.method=="GET":
+		return render_template ('mhma.html' )
+	elif request.method=="POST":
+		db = dataset.connect('sqlite:///scholars6.db')
+
+		name= request.form['name']
+		subject=request.form['subject']
+		email=request.form['email']
+		message=request.form['message']
+		scholars_contact=db["contactus"]
+		table_entry={"message":message, "email":email,"subject":subject,"name":name}
+		scholars_contact.insert(table_entry)
+		return render_template('khaled.html')
 @app.route('/america')
 def america():
-	db = dataset.connect('sqlite:///scholars5.db')
+	db = dataset.connect('sqlite:///scholars6.db')
 	studentsTable = db["students"]
 	data = studentsTable.find_one(name="akram")
 
@@ -115,33 +127,43 @@ def america():
 @app.route('/akram', methods =["POST" , "GET"])
 
 def akram():
-	db = dataset.connect('sqlite:///scholars5.db')
 
 	if request.method=="GET":
 		return render_template ('akram.html' )
 	elif request.method=="POST":
-		db = dataset.connect('sqlite:///scholars5.db')
+		db = dataset.connect('sqlite:///scholars6.db')
+		name= request.form['name']
+		subject=request.form['subject']
+		email=request.form['email']
+		message=request.form['message']
+		scholars_contact=db["contactus"]
+		table_entry={"message":message,"email":email,"subject":subject,"name":name}
+		scholars_contact.insert(table_entry)
+		return render_template("akram.html",message=message,email=email,subject=subject,name=name)
+
+@app.route('/egypt')
+def egypt():
+	db = dataset.connect('sqlite:///scholars6.db')
+
+	studentsTable = db["students"]
+	data = studentsTable.find_one(name="Ramadan Alagha")
+	return render_template('egypt.html', data=data)
+@app.route('/mhma',methods=["POST","GET"])
+def mhma():
+	print request.method
+	if request.method=="GET":
+		return render_template ('mhma.html' )
+	elif request.method=="POST":
+		db = dataset.connect('sqlite:///scholars6.db')
 
 		name= request.form['name']
 		subject=request.form['subject']
 		email=request.form['email']
 		message=request.form['message']
 		scholars_contact=db["contactus"]
-		table_entry={message:"message", email:"email",subject:"subject",name:'name'}
+		table_entry={"message":message, "email":email,"subject":subject,"name":name}
 		scholars_contact.insert(table_entry)
-		return render_template("akram.html",message=message,email=email,subject=subject,name=name)
-@app.route('/egypt')
-def egypt():
-	db = dataset.connect('sqlite:///scholars5.db')
-
-	studentsTable = db["students"]
-	data = studentsTable.find_one(name="Ramadan Alagha")
-	return render_template('egypt.html', data=data)
-@app.route('/egypt/mhma')
-def mhma():
-	return render_template('mhma.html')
-
-	return redirect("/login")
+		return render_template("mhma.html")
 @app.route("/logout")
 def logout():
 	if "username" in session:
@@ -159,4 +181,4 @@ def showAll():
 		session["erorr"]="Please login first"
 		return redirect("/login")
 if __name__ =='__main__':
-	app.run(debug= True,port=5410)		
+	app.run(debug= True,port=5910)		
